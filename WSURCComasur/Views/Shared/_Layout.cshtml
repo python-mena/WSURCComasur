@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WSURCD Comasur</title>
+   <add namespace="System.Web.Optimization" /> 
+  <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+  @Scripts.Render("~/bundles/modernizr")
+
+  <!-- JQuery Library References -->
+  <script src="@Url.Content("~/Scripts/jquery-1.10.2.js")" type="text/javascript"></script>
+  <script src="@Url.Content("~/Scripts/jquery-ui-1.10.3.custom.min.js")" type="text/javascript"></script>
+  <script src="@Url.Content("~/Scripts/jquery-common.js")" type="text/javascript"></script>
+  <script src="@Url.Content("~/Scripts/jquery-validate.js")" type="text/javascript"></script>
+  <script src="@Url.Content("~/Scripts/jquery-validate.unobtrusive.js")" type="text/javascript"></script>
+
+  <!-- jQuery UI Theme -->
+  <link href="@Url.Content("~/Content/themes/ui-lightness/jquery-ui-1.10.3.min.css")" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div class="page">
+    <div id="header" class="gradientClass">
+      <img src="@Url.Content("~/Content/Images/padlock.jpg")" alt="logo" style="vertical-align:top; margin-top: 0px; margin-bottom: 0px" />
+      <font style="font-size: 32px;vertical-align:middle"><strong>WSURCD Comasur Gestor De Permisos</strong></font><br />
+      <font style="font-size: 12px">Usuario Actual: @User.Identity.Name</font>
+    </div>
+    <div id="menucontainer">
+      <ul class="menuTemplate3 decor3_1">
+        @{
+          if (ViewContext.Controller.IsSysAdmin())
+          {
+            <li>
+              <a href="#" class="arrow">Administracion del Sistema</a>
+              <div class="drop decor3_2 dropToLeft" style="width: 160px;">
+                <div class='right'>
+                  <a href="/Admin">Usuarios</a><br />
+                  <a href="/Admin/RoleIndex">Roles</a><br />
+                  <a href="/Admin/PermissionIndex">Permisos y configuraciones</a><br />                  
+                </div>
+              </div>
+            </li>
+          }}
+        <li>@Html.ActionLink("vista", "About", "Home")</li>
+        <li>@Html.ActionLink("Contactos", "Contact", "Home")</li>
+        <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+      </ul>
+    </div>
+  </div>
+  <div class="container body-content">
+    @RenderBody()
+  </div>
+</body>
+</html>

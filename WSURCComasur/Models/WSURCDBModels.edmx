@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="WSURCDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="LNK_ROLE_PERMISSION">
+          <Key>
+            <PropertyRef Name="Role_Id" />
+            <PropertyRef Name="Permission_Id" />
+          </Key>
+          <Property Name="Role_Id" Type="int" Nullable="false" />
+          <Property Name="Permission_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LNK_USER_ROLE">
+          <Key>
+            <PropertyRef Name="User_Id" />
+            <PropertyRef Name="Role_Id" />
+          </Key>
+          <Property Name="User_Id" Type="int" Nullable="false" />
+          <Property Name="Role_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PERMISSIONS">
+          <Key>
+            <PropertyRef Name="Permission_Id" />
+          </Key>
+          <Property Name="Permission_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PermissionDescription" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ROLES">
+          <Key>
+            <PropertyRef Name="Role_Id" />
+          </Key>
+          <Property Name="Role_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RoleDescription" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsSysAdmin" Type="bit" />
+          <Property Name="LastModified" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USERS">
+          <Key>
+            <PropertyRef Name="User_Id" />
+          </Key>
+          <Property Name="User_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastModified" Type="datetime" />
+          <Property Name="Inactive" Type="bit" />
+          <Property Name="Firstname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Lastname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Title" Type="nvarchar" MaxLength="30" />
+          <Property Name="Initial" Type="nvarchar" MaxLength="3" />
+          <Property Name="EMail" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_LNK_ROLE_PERMISSION_PERMISSIONS">
+          <End Role="PERMISSIONS" Type="Self.PERMISSIONS" Multiplicity="1" />
+          <End Role="LNK_ROLE_PERMISSION" Type="Self.LNK_ROLE_PERMISSION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERMISSIONS">
+              <PropertyRef Name="Permission_Id" />
+            </Principal>
+            <Dependent Role="LNK_ROLE_PERMISSION">
+              <PropertyRef Name="Permission_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LNK_ROLE_PERMISSION_ROLES">
+          <End Role="ROLES" Type="Self.ROLES" Multiplicity="1" />
+          <End Role="LNK_ROLE_PERMISSION" Type="Self.LNK_ROLE_PERMISSION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLES">
+              <PropertyRef Name="Role_Id" />
+            </Principal>
+            <Dependent Role="LNK_ROLE_PERMISSION">
+              <PropertyRef Name="Role_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LNK_USER_ROLE_ROLES">
+          <End Role="ROLES" Type="Self.ROLES" Multiplicity="1" />
+          <End Role="LNK_USER_ROLE" Type="Self.LNK_USER_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLES">
+              <PropertyRef Name="Role_Id" />
+            </Principal>
+            <Dependent Role="LNK_USER_ROLE">
+              <PropertyRef Name="Role_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LNK_USER_ROLE_USERS">
+          <End Role="USERS" Type="Self.USERS" Multiplicity="1" />
+          <End Role="LNK_USER_ROLE" Type="Self.LNK_USER_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERS">
+              <PropertyRef Name="User_Id" />
+            </Principal>
+            <Dependent Role="LNK_USER_ROLE">
+              <PropertyRef Name="User_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WSURCDBModelStoreContainer">
+          <EntitySet Name="LNK_ROLE_PERMISSION" EntityType="Self.LNK_ROLE_PERMISSION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LNK_USER_ROLE" EntityType="Self.LNK_USER_ROLE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PERMISSIONS" EntityType="Self.PERMISSIONS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROLES" EntityType="Self.ROLES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USERS" EntityType="Self.USERS" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_LNK_ROLE_PERMISSION_PERMISSIONS" Association="Self.FK_LNK_ROLE_PERMISSION_PERMISSIONS">
+            <End Role="PERMISSIONS" EntitySet="PERMISSIONS" />
+            <End Role="LNK_ROLE_PERMISSION" EntitySet="LNK_ROLE_PERMISSION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LNK_ROLE_PERMISSION_ROLES" Association="Self.FK_LNK_ROLE_PERMISSION_ROLES">
+            <End Role="ROLES" EntitySet="ROLES" />
+            <End Role="LNK_ROLE_PERMISSION" EntitySet="LNK_ROLE_PERMISSION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LNK_USER_ROLE_ROLES" Association="Self.FK_LNK_USER_ROLE_ROLES">
+            <End Role="ROLES" EntitySet="ROLES" />
+            <End Role="LNK_USER_ROLE" EntitySet="LNK_USER_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LNK_USER_ROLE_USERS" Association="Self.FK_LNK_USER_ROLE_USERS">
+            <End Role="USERS" EntitySet="USERS" />
+            <End Role="LNK_USER_ROLE" EntitySet="LNK_USER_ROLE" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WSURCDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="PERMISSIONS">
+          <Key>
+            <PropertyRef Name="Permission_Id" />
+          </Key>
+          <Property Name="Permission_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PermissionDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ROLES" Relationship="Self.LNK_ROLE_PERMISSION" FromRole="PERMISSIONS" ToRole="ROLES" />
+        </EntityType>
+        <EntityType Name="ROLES">
+          <Key>
+            <PropertyRef Name="Role_Id" />
+          </Key>
+          <Property Name="Role_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleDescription" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsSysAdmin" Type="Boolean" />
+          <Property Name="LastModified" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="PERMISSIONS" Relationship="Self.LNK_ROLE_PERMISSION" FromRole="ROLES" ToRole="PERMISSIONS" />
+          <NavigationProperty Name="USERS" Relationship="Self.LNK_USER_ROLE" FromRole="ROLES" ToRole="USERS" />
+        </EntityType>
+        <EntityType Name="USERS">
+          <Key>
+            <PropertyRef Name="User_Id" />
+          </Key>
+          <Property Name="User_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastModified" Type="DateTime" Precision="3" />
+          <Property Name="Inactive" Type="Boolean" />
+          <Property Name="Firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Initial" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="EMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ROLES" Relationship="Self.LNK_USER_ROLE" FromRole="USERS" ToRole="ROLES" />
+        </EntityType>
+        <Association Name="LNK_ROLE_PERMISSION">
+          <End Role="PERMISSIONS" Type="Self.PERMISSIONS" Multiplicity="*" />
+          <End Role="ROLES" Type="Self.ROLES" Multiplicity="*" />
+        </Association>
+        <Association Name="LNK_USER_ROLE">
+          <End Role="ROLES" Type="Self.ROLES" Multiplicity="*" />
+          <End Role="USERS" Type="Self.USERS" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="WSURCDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PERMISSIONS" EntityType="Self.PERMISSIONS" />
+          <EntitySet Name="ROLES" EntityType="Self.ROLES" />
+          <EntitySet Name="USERS" EntityType="Self.USERS" />
+          <AssociationSet Name="LNK_ROLE_PERMISSION" Association="Self.LNK_ROLE_PERMISSION">
+            <End Role="PERMISSIONS" EntitySet="PERMISSIONS" />
+            <End Role="ROLES" EntitySet="ROLES" />
+          </AssociationSet>
+          <AssociationSet Name="LNK_USER_ROLE" Association="Self.LNK_USER_ROLE">
+            <End Role="ROLES" EntitySet="ROLES" />
+            <End Role="USERS" EntitySet="USERS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WSURCDBModelStoreContainer" CdmEntityContainer="WSURCDBEntities">
+          <EntitySetMapping Name="PERMISSIONS">
+            <EntityTypeMapping TypeName="WSURCDBModel.PERMISSIONS">
+              <MappingFragment StoreEntitySet="PERMISSIONS">
+                <ScalarProperty Name="Permission_Id" ColumnName="Permission_Id" />
+                <ScalarProperty Name="PermissionDescription" ColumnName="PermissionDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROLES">
+            <EntityTypeMapping TypeName="WSURCDBModel.ROLES">
+              <MappingFragment StoreEntitySet="ROLES">
+                <ScalarProperty Name="Role_Id" ColumnName="Role_Id" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
+                <ScalarProperty Name="IsSysAdmin" ColumnName="IsSysAdmin" />
+                <ScalarProperty Name="LastModified" ColumnName="LastModified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USERS">
+            <EntityTypeMapping TypeName="WSURCDBModel.USERS">
+              <MappingFragment StoreEntitySet="USERS">
+                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="LastModified" ColumnName="LastModified" />
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Initial" ColumnName="Initial" />
+                <ScalarProperty Name="EMail" ColumnName="EMail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="LNK_ROLE_PERMISSION" TypeName="WSURCDBModel.LNK_ROLE_PERMISSION" StoreEntitySet="LNK_ROLE_PERMISSION">
+            <EndProperty Name="PERMISSIONS">
+              <ScalarProperty Name="Permission_Id" ColumnName="Permission_Id" />
+            </EndProperty>
+            <EndProperty Name="ROLES">
+              <ScalarProperty Name="Role_Id" ColumnName="Role_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="LNK_USER_ROLE" TypeName="WSURCDBModel.LNK_USER_ROLE" StoreEntitySet="LNK_USER_ROLE">
+            <EndProperty Name="ROLES">
+              <ScalarProperty Name="Role_Id" ColumnName="Role_Id" />
+            </EndProperty>
+            <EndProperty Name="USERS">
+              <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
